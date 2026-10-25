@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Etsy connection</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         background: #020617; color: #D1D5DB; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 34rem; padding: 2rem 1.25rem; }
+  h1 { font-size: 1.4rem; color: #00D4FF; margin: 0 0 .5rem; }
+  p { line-height: 1.5; }
+  .code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1rem;
+          word-break: break-all; user-select: all; background: #0f172a; border: 1px solid #1e293b;
+          border-radius: 8px; padding: .85rem 1rem; margin: 1rem 0; }
+  .label { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: #64748b; margin-bottom: .25rem; }
+  .muted { color: #64748b; font-size: .85rem; }
+  #empty { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Etsy connection</h1>
+  <div id="result" style="display:none">
+    <p>Etsy approved the connection. Send the code below back to Instinct in WhatsApp to finish.</p>
+    <div class="label">One-time code</div>
+    <div class="code" id="code"></div>
+    <div class="label">Check value</div>
+    <div class="code" id="state"></div>
+    <p class="muted">This code expires within minutes and works once. This page stores nothing and sends nothing anywhere.</p>
+  </div>
+  <div id="empty">
+    <p>This page is used once to connect an Etsy shop. There is nothing to do here.</p>
+  </div>
+</main>
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var code = params.get('code');
+  var state = params.get('state');
+  if (code) {
+    document.getElementById('code').textContent = code;
+    document.getElementById('state').textContent = state || '(none)';
+    document.getElementById('result').style.display = 'block';
+  } else {
+    document.getElementById('empty').style.display = 'block';
+  }
+  // Strip the query immediately so the code does not linger in the address
+  // bar, browser history, or any later navigation from this page.
+  window.history.replaceState({}, document.title, window.location.pathname);
+})();
+</script>
+</body>
+</html>
